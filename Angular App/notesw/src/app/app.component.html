@@ -12,6 +12,16 @@
   .form-field{
     width: 100%;
   }
+  .mat-expansion-panel-header-title{
+    flex-basis: 0;
+    align-items: center;
+  }
+
+  .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
 </style>
 <mat-toolbar color="primary">
   <span>My Notes</span>
@@ -20,75 +30,36 @@
   <div class="row">
     <mat-form-field class="form-field">
       <mat-label>Title</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)] ="note.title">
     </mat-form-field> 
     </div>
     <div class="row">
     <mat-form-field class="form-field">
       <mat-label>Add notes</mat-label>
-      <textarea matInput cdkTextareaAutosize></textarea>
+      <textarea matInput cdkTextareaAutosize [(ngModel)] ="note.body"></textarea>
     </mat-form-field>
     </div>
     <div class="row" style="text-align: right;">
-      <button mat-flat-button color="primary">Save</button>
+      <button mat-flat-button color="primary" [disabled]="note.title == '' || note.body == ''" (click)="addNote()">Save</button>
     </div>
 
     <!--
       Expansion list
     -->
-    <div class="row" style="margin-top: 15px;">
-      <mat-expansion-panel>
+    
+    <div class="row" style="margin-top: 15px;" *ngFor="let note of Notes">
+      <mat-expansion-panel [disabled]="clickButton" (click)="clickButton=false">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Title 1
+            {{note.title}}
           </mat-panel-title>
-          <mat-panel-description>
-            An mat-grid-list must specify a cols attribute which
+          <mat-panel-description>&nbsp;
+            <button mat-icon-button (click)="delete(note._id)" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>An mat-grid-list must specify a cols attribute which sets the number of columns in the grid. The number of rows will be automatically determined based on the number of columns and the number of items.</p>
-      </mat-expansion-panel>
-    </div>
-
-    <div class="row" style="margin-top: 15px;">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Title 2
-          </mat-panel-title>
-          <mat-panel-description>
-            An mat-grid-list must specify a cols attribute which
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>An mat-grid-list must specify a cols attribute which sets the number of columns in the grid. The number of rows will be automatically determined based on the number of columns and the number of items.</p>
-      </mat-expansion-panel>
-    </div>
-
-    <div class="row" style="margin-top: 15px;">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Title 3
-          </mat-panel-title>
-          <mat-panel-description>
-            An mat-grid-list must specify a cols attribute which
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>An mat-grid-list must specify a cols attribute which sets the number of columns in the grid. The number of rows will be automatically determined based on the number of columns and the number of items.</p>
-      </mat-expansion-panel>
-    </div>
-
-    <div class="row" style="margin-top: 15px;">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Title 4
-          </mat-panel-title>
-          <mat-panel-description>
-            An mat-grid-list must specify a cols attribute which
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>An mat-grid-list must specify a cols attribute which sets the number of columns in the grid. The number of rows will be automatically determined based on the number of columns and the number of items.</p>
-      </mat-expansion-panel>
+          {{note.body}}
+        </mat-expansion-panel>
     </div>
 </div>

@@ -2,16 +2,17 @@
 // require expressJS
 // require body-parser
 
-var mongoDB = require('mongodb').MongoClient;
+var mongoObj = require('mongodb');
+var mongoDB = mongoObj.MongoClient;
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var cors = require('cors');
 var url = 'mongodb://localhost:27017';
 var dbName = 'myNotes';
 var db;
 
-var app = express()
-
+var app = express();
+app.use(cors());
 mongoDB.connect(url, function(error, client){
 
     if(error)
@@ -21,10 +22,19 @@ mongoDB.connect(url, function(error, client){
     }
 
     db = client.db(dbName);
-    
+
     app.get('/Notes', function(req, res){
         
         db.collection('notes').find({}).toArray().then(data => {
+            res.send(data);
+        });
+
+    });
+
+    app.delete('/Notes/:id', function(req, res){
+        
+
+        db.collection('notes').deleteOne({_id: new mongoObj.ObjectID(req.params.id)}).then((data) => {
             res.send(data);
         });
 

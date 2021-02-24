@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "notesw"
+  "defaultProject": "notesw",
+  "cli": {
+    "analytics": false
+  }
 }
